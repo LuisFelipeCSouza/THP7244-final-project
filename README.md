@@ -1,7 +1,8 @@
 # Trabalho Final da Disciplina Redes Elétricas Inteligentes: Proteção, Controle, Otimização
 
 **Professores:**  
-- Lucas Silveira  
+
+- Lucas Silveira
 - Raimundo Furtado  
 
 **Data de início:** 04/12/2025  
@@ -10,17 +11,19 @@
 ---
 
 ## 📘 Contexto
-Este repositório contém o desenvolvimento do trabalho final da disciplina **Redes Elétricas Inteligentes: Proteção, Controle, Otimização**.  
-O trabalho é baseado na replicação dos resultados obtidos no artigo:
 
-**Optimization-Based Operation of Distribution Grids With Residential Battery Storage: Assessing Utility and Customer Benefits**
+Este repositório contém o desenvolvimento do trabalho final da disciplina **Redes Elétricas Inteligentes: Proteção, Controle, Otimização**.  
+O trabalho é baseado na replicação dos resultados obtidos no artigo: **Optimization-Based Operation of Distribution Grids With Residential Battery Storage: Assessing Utility and Customer Benefits**
 
 ---
 
 ## 📄 Resumo do artigo
+
 O artigo aborda os desafios técnicos criados pelo aumento da geração distribuída de energia solar fotovoltaica (PV) em redes de distribuição, especialmente no controle de tensão.  
 A proposta é um método de **otimização para despacho de baterias residenciais** que:
+
 - Considera medições locais (behind-the-meter).  
+
 - Utiliza potência real e reativa de forma acoplada para regulação de tensão e redução de perdas.  
 - É formulado como **Local-Quadratic Program (L-QP)** baseado nas equações lineares de fluxo de potência (**LinDistFlow**).  
 
@@ -30,7 +33,9 @@ Os resultados demonstram vantagens técnicas e econômicas da abordagem proposta
 ---
 
 ## 🎯 Objetivos do Trabalho
+
 Os itens a serem desenvolvidos são:
+
 1. Elaboração de uma **apresentação explicativa** sobre os pontos mais importantes do artigo.  
 2. Atualização da **revisão bibliográfica** relacionada ao tema.  
 3. **Modelagem dos sistemas de distribuição** (13 barras e 123 barras) utilizando as bibliotecas **OpenDER** e **OpenDERinterface**.  
@@ -41,6 +46,7 @@ Os itens a serem desenvolvidos são:
 ---
 
 ## 📅 Cronograma
+
 - **Janeiro 2026:** Primeira entrega parcial.  
 - **Fevereiro 2026 (início):** Segunda entrega parcial.  
 - **Fevereiro 2026 (final):** Entrega final do trabalho.  
@@ -87,6 +93,7 @@ uv sync
 ```
 
 ### 📑 Instalar dependências existentes
+
 Quem clonar o repositório só precisa rodar:
 
 ```bash
