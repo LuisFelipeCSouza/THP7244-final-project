@@ -1,0 +1,1 @@
+Repositório dedicado os desenvolvimentos do trabalho final da disciplina de pós-graduação ESTUDOS ESPECIAIS EM ENGENHARIA ELÉTRICA II (THP7244)
