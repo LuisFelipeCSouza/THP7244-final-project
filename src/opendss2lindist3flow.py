@@ -12,13 +12,13 @@ class OpenDSS2LinDist3Flow:
         
     def run_dss(self):
         self.dss.text("Clear")
-        # Correção: Aspas duplas para proteger caminhos com espaços ou parênteses
         self.dss.text(f'Compile "{self.dss_file}"')
         self.dss.text("CalcVoltageBases")
         self.dss.solution.solve()
         print(f"Circuito compilado: {self.dss.circuit.name}")
 
     def _parse_bus_phases(self, bus_str):
+        """Retorna (nome_barra, lista_indices_fases)"""
         parts = bus_str.split('.')
         bus_name = parts[0].lower()
         if len(parts) == 1:
@@ -69,14 +69,18 @@ class OpenDSS2LinDist3Flow:
         return lines_data
 
     def get_loads_data(self):
+        """
+        Retorna a carga total por barra (Soma estátitaca para inicialização).
+        Isso é usado para definir o ponto de operação nominal se não houver CSV
+        """
         loads_dict = {}
         n_loads = self.dss.loads.count
         self.dss.loads.first()
         
         for _ in range(n_loads):
-            # Correção: Usar CktElement para pegar a barra
             bus_str = self.dss.cktelement.bus_names[0]
             bus_name, phases = self._parse_bus_phases(bus_str)
+            #print(self.dss.loads.name)
             
             if bus_name not in loads_dict:
                 loads_dict[bus_name] = {'p': np.zeros(3), 'q': np.zeros(3)}
@@ -104,6 +108,36 @@ class OpenDSS2LinDist3Flow:
             })
         return final_loads
 
+    def get_loads_mapping(self):
+        """
+        Cria o mapa detalhado de cada carga indivual.
+        Chave: Nome da carga (ex: 'Load.671')
+        Valor: Metadados (Barra, Fases, Potência Base)
+        """
+        mapping = {}
+        n_loads = self.dss.loads.count
+        self.dss.loads.first()
+
+        for _ in range(n_loads):
+            load_name = self.dss.loads.name
+
+            bus_str = self.dss.cktelement.bus_names[0]
+            bus_name, phases = self._parse_bus_phases(bus_str)
+
+            kw = self.dss.loads.kw
+            kvar = self.dss.loads.kvar
+            kv = self.dss.loads.kv
+
+            mapping[load_name] = {
+                "bus": bus_name,
+                "phases": phases,
+                "kw": kw,
+                "kvar": kvar,
+                "kv": kv
+            }
+        
+        return mapping
+    
     def get_general_data(self):
         if not self.nodes:
             return {"s_base_mva": 1.0, "v_base_kv_ll": 4.16}
@@ -123,6 +157,7 @@ class OpenDSS2LinDist3Flow:
         data = {
             "lines": self.get_lines_data(),
             "loads": self.get_loads_data(),
+            "load_map": self.get_loads_mapping(),
             "general": self.get_general_data(),
             "nodes": sorted(list(self.nodes))
         }
@@ -138,6 +173,6 @@ if __name__ == "__main__":
     
     if dss_file.exists():
         converter = OpenDSS2LinDist3Flow(str(dss_file))
-        converter.export_json("rede_eletrica.json")
+        converter.export_json("IEEE13Nodeckt_simplified.json")
     else:
         print(f"Arquivo DSS não encontrado: {dss_file}")
