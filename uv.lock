@@ -3,6 +3,23 @@ revision = 3
 requires-python = ">=3.12"
 
 [[package]]
+name = "altdss"
+version = "0.2.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dss-python" },
+    { name = "dss-python-backend" },
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "scipy" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/73/8e/4e9e75dbafdb9001e7bcce98190ad816bc838af7e982e00d1ce091a3c8d1/altdss-0.2.4.tar.gz", hash = "sha256:c2caccd1147c3a17c05605a700818ede77cd9406072684c6545727bd96d92937", size = 464734, upload-time = "2024-03-29T05:48:09.164Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4d/22/27c2cb4c642e58f600515ddde6e2b650ecbde36faf907a5188e11932189e/altdss-0.2.4-py3-none-any.whl", hash = "sha256:91d876f4c072eeedcd4c582700e5207b7f1b1729e2df0098ca5c461cc5f53f0f", size = 391969, upload-time = "2024-03-29T05:48:06.996Z" },
+]
+
+[[package]]
 name = "appnope"
 version = "0.1.4"
 source = { registry = "https://pypi.org/simple" }
@@ -241,6 +258,38 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/43/fa/6d96a0978d19e17b68d634497769987b16c8f4cd0a7a05048bec693caa6b/decorator-5.2.1.tar.gz", hash = "sha256:65f266143752f734b0a7cc83c46f4618af75b8c5911b00ccb61d0ac9b6da0360", size = 56711, upload-time = "2025-02-24T04:41:34.073Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/4e/8c/f3147f5c4b73e7550fe5f9352eaa956ae838d5c51eb58e7a25b9f3e2643b/decorator-5.2.1-py3-none-any.whl", hash = "sha256:d316bb415a2d9e2d2b3abcc4084c6502fc09240e292cd76a76afc106a1c8e04a", size = 9190, upload-time = "2025-02-24T04:41:32.565Z" },
+]
+
+[[package]]
+name = "dss-python"
+version = "0.15.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dss-python-backend" },
+    { name = "numpy" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a4/15/0bb630d747d9cfbf15dcdc537508fe0602f0a4e256ea40f6cb8496d56847/dss_python-0.15.7.tar.gz", hash = "sha256:bcdb6d8e4eb4255c3afb473a25aaa6951dbec46366c4cf2940796f5c00e53848", size = 198521, upload-time = "2024-03-29T05:57:18.528Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/95/ad/88f91e2d636a051441dad0bbd804ce2f42e0184cd321adb7ec98ee38d97d/dss_python-0.15.7-py3-none-any.whl", hash = "sha256:86359b60e103f5ff038adabb3af424e97857cf98d5c43a042d08795d3ba2dd3d", size = 231968, upload-time = "2024-03-29T05:57:15.71Z" },
+]
+
+[[package]]
+name = "dss-python-backend"
+version = "0.14.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cffi" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6a/f8/1fa9857d3d7d026f8897f4363a5c60bea9268f15ea41021a17682a351523/dss_python_backend-0.14.5-cp37-abi3-macosx_10_13_universal2.whl", hash = "sha256:511db113b30a4f979552c3c76ed520cf39acb4a7595f725465d7cda1fced8e78", size = 7595436, upload-time = "2024-03-29T04:55:07.185Z" },
+    { url = "https://files.pythonhosted.org/packages/39/95/ac35ee76cc7325201930638d3bf14952c93cf0915a2fe96fc5fd852346ed/dss_python_backend-0.14.5-cp37-abi3-macosx_12_0_arm64.whl", hash = "sha256:63cb7e495c9fd1834f7b5fe270333ef381b95281203dce5ece7ea2a11bb162a5", size = 6116707, upload-time = "2024-03-29T04:55:11.154Z" },
+    { url = "https://files.pythonhosted.org/packages/a0/27/f188fc0e6cb54c94617bc2d9c1e19d010b6a8bd913e354bf1e544c30df6e/dss_python_backend-0.14.5-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0a490f6287f06c5f0d971ac5fa06527bbc1a19bc8ece5d12553d8aa72569dfba", size = 16427916, upload-time = "2024-03-29T04:55:16.47Z" },
+    { url = "https://files.pythonhosted.org/packages/3b/4b/0610c18e4c5ca852a25524d635c0a65798d98335fc3e9c31f3fd61e22781/dss_python_backend-0.14.5-cp37-abi3-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:6aea8323d4e6a0425d01056e69f25eccb4d3951e287fe06fc53f342ddd8d09ac", size = 20565731, upload-time = "2024-03-29T04:55:22.96Z" },
+    { url = "https://files.pythonhosted.org/packages/2f/eb/ff21c6d80a07cac2ec6d5a143ff2e3555d075eff66e5ffd4d3f64cbbf042/dss_python_backend-0.14.5-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e6fd9682a127f306a3b367810dee2b02d00660f6739e580609d5b9f523d03ccb", size = 22034261, upload-time = "2024-03-29T04:55:29.782Z" },
+    { url = "https://files.pythonhosted.org/packages/b9/13/f6b7576d0d4fea9aba079816ce00ca67f784f0cbd9e2c418f50fcf00b06b/dss_python_backend-0.14.5-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:ac31301222f58f148c145847fa08bfcea934b4ea1097e5788d164d4dcf0a09d1", size = 22036908, upload-time = "2024-03-29T04:55:36.169Z" },
+    { url = "https://files.pythonhosted.org/packages/59/58/c0c48259f73c83fec75873a968589ff79b29d142a12e199689c1d7230180/dss_python_backend-0.14.5-cp37-abi3-win32.whl", hash = "sha256:873f5fe904034bb5b11e44b74841cc92ddae2101a16e68592a4725b93b546e27", size = 17365863, upload-time = "2024-03-29T04:55:41.549Z" },
+    { url = "https://files.pythonhosted.org/packages/b1/d5/c71c498c0cca35018691af448fdc792703d3e36146edfe840bba2ba26700/dss_python_backend-0.14.5-cp37-abi3-win_amd64.whl", hash = "sha256:503ff6f15c6037863848a127244e090dbf246eeafcb71a31b35c2d35f13efae8", size = 18778503, upload-time = "2024-03-29T04:55:46.615Z" },
 ]
 
 [[package]]
@@ -623,6 +672,15 @@ wheels = [
 ]
 
 [[package]]
+name = "networkx"
+version = "3.6.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6a/51/63fe664f3908c97be9d2e4f1158eb633317598cfa6e1fc14af5383f17512/networkx-3.6.1.tar.gz", hash = "sha256:26b7c357accc0c8cde558ad486283728b65b6a95d85ee1cd66bafab4c8168509", size = 2517025, upload-time = "2025-12-08T17:02:39.908Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9e/c9/b2622292ea83fbb4ec318f5b9ab867d0a28ab43c5717bb85b0a5f6b3b0a4/networkx-3.6.1-py3-none-any.whl", hash = "sha256:d47fbf302e7d9cbbb9e2555a0d267983d2aa476bac30e90dfbe5669bd57f3762", size = 2068504, upload-time = "2025-12-08T17:02:38.159Z" },
+]
+
+[[package]]
 name = "numpy"
 version = "2.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -681,6 +739,27 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/96/df/3c6c279accd2bfb968a76298e5b276310bd55d243df4fa8ac5816d79347d/numpy-2.4.0-cp314-cp314t-win32.whl", hash = "sha256:77f0d13fa87036d7553bf81f0e1fe3ce68d14c9976c9851744e4d3e91127e95f", size = 6148320, upload-time = "2025-12-20T16:17:57.249Z" },
     { url = "https://files.pythonhosted.org/packages/92/8d/f23033cce252e7a75cae853d17f582e86534c46404dea1c8ee094a9d6d84/numpy-2.4.0-cp314-cp314t-win_amd64.whl", hash = "sha256:b1f5b45829ac1848893f0ddf5cb326110604d6df96cdc255b0bf9edd154104d4", size = 12623460, upload-time = "2025-12-20T16:17:58.963Z" },
     { url = "https://files.pythonhosted.org/packages/a4/4f/1f8475907d1a7c4ef9020edf7f39ea2422ec896849245f00688e4b268a71/numpy-2.4.0-cp314-cp314t-win_arm64.whl", hash = "sha256:23a3e9d1a6f360267e8fbb38ba5db355a6a7e9be71d7fce7ab3125e88bb646c8", size = 10661799, upload-time = "2025-12-20T16:18:01.078Z" },
+]
+
+[[package]]
+name = "opendssdirect-py"
+version = "0.9.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dss-python" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3b/28/941c12bcda10ff9c120de5c827129664394cfd134f6c877530a2571360d5/opendssdirect_py-0.9.4.tar.gz", hash = "sha256:52ca478b5963d8f9bfd6a70de324c76fb97be43a23df847c5da012b38bdfcfb9", size = 71092, upload-time = "2024-03-29T06:07:15.459Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bf/59/66c22a0baf52019a460f064fde96b6be1199af578129af0c09ad560cde33/opendssdirect_py-0.9.4-py3-none-any.whl", hash = "sha256:532c80c7eca048ea1580bf204e351f1e9295bf7ed62789f96629e11323de9ae5", size = 101929, upload-time = "2024-03-29T06:07:12.923Z" },
+]
+
+[package.optional-dependencies]
+extras = [
+    { name = "altdss" },
+    { name = "matplotlib" },
+    { name = "networkx" },
+    { name = "pandas" },
+    { name = "scipy" },
 ]
 
 [[package]]
@@ -1153,6 +1232,7 @@ dependencies = [
     { name = "ipykernel" },
     { name = "matplotlib" },
     { name = "numpy" },
+    { name = "opendssdirect-py", extra = ["extras"] },
     { name = "pandas" },
     { name = "py-dss-interface" },
 ]
@@ -1163,6 +1243,7 @@ requires-dist = [
     { name = "ipykernel", specifier = ">=7.1.0" },
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "numpy", specifier = ">=2.4.0" },
+    { name = "opendssdirect-py", extras = ["extras"], specifier = ">=0.9.4" },
     { name = "pandas", specifier = ">=2.3.3" },
     { name = "py-dss-interface", specifier = ">=2.2.1" },
 ]
@@ -1193,6 +1274,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/eb/79/72064e6a701c2183016abbbfedaba506d81e30e232a68c9f0d6f6fcd1574/traitlets-5.14.3.tar.gz", hash = "sha256:9ed0579d3502c94b4b3732ac120375cda96f923114522847de4b3bb98b96b6b7", size = 161621, upload-time = "2024-04-19T11:11:49.746Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/00/c0/8f5d070730d7836adc9c9b6408dec68c6ced86b304a9b26a14df072a6e8c/traitlets-5.14.3-py3-none-any.whl", hash = "sha256:b74e89e397b1ed28cc831db7aea759ba6640cb3de13090ca145426688ff1ac4f", size = 85359, upload-time = "2024-04-19T11:11:46.763Z" },
+]
+
+[[package]]
+name = "typing-extensions"
+version = "4.15.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/72/94/1a15dd82efb362ac84269196e94cf00f187f7ed21c242792a923cdb1c61f/typing_extensions-4.15.0.tar.gz", hash = "sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466", size = 109391, upload-time = "2025-08-25T13:49:26.313Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/18/67/36e9267722cc04a6b9f15c7f3441c2363321a3ea07da7ae0c0707beb2a9c/typing_extensions-4.15.0-py3-none-any.whl", hash = "sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548", size = 44614, upload-time = "2025-08-25T13:49:24.86Z" },
 ]
 
 [[package]]

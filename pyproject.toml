@@ -9,6 +9,7 @@ dependencies = [
     "ipykernel>=7.1.0",
     "matplotlib>=3.10.8",
     "numpy>=2.4.0",
+    "opendssdirect-py[extras]>=0.9.4",
     "pandas>=2.3.3",
     "py-dss-interface>=2.2.1",
 ]
