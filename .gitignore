@@ -3,3 +3,4 @@ data/nextgen-energy-raw/*
 !data/nextgen-energy-raw/0-id_114.csv
 !data/nextgen-energy-raw/14-id_292.csv
 !data/nextgen-energy-raw/90-id_261.csv
+notebooks/teste1.ipynb
