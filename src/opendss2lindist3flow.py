@@ -135,6 +135,8 @@ class OpenDSS2LinDist3Flow:
                 "kvar": kvar,
                 "kv": kv
             }
+
+            self.dss.loads.next()
         
         return mapping
     
@@ -157,7 +159,7 @@ class OpenDSS2LinDist3Flow:
         data = {
             "lines": self.get_lines_data(),
             "loads": self.get_loads_data(),
-            "load_map": self.get_loads_mapping(),
+            "loads_map": self.get_loads_mapping(),
             "general": self.get_general_data(),
             "nodes": sorted(list(self.nodes))
         }
