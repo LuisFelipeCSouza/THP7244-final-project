@@ -1,9 +1,16 @@
 [project]
 name = "thp7244-final-project"
 version = "0.1.0"
-description = "Add your description here"
+description = "Ferramentas de otimização e análise de sistemas elétricos usando Python"
 readme = "README.md"
 requires-python = ">=3.12"
+authors = [
+    { name = "Luis Felipe", email = "felipeluis@alu.ufc.br"},
+    { name = "Caio Luis", email = "kaiolucas468@gmail.com"},
+    { name = "Levi Nogueira", email = "levisnog@gmail.com"},
+    { name = "Artur Evangelista", email = "arturevang@gmail.com"},
+    { name = "Romulo Cesar", email = "romulo.cesar@ifce.edu.br"}
+]
 dependencies = [
     "cvxpy>=1.7.5",
     "ipykernel>=7.1.0",
