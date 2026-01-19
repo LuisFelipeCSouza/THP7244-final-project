@@ -25,7 +25,7 @@ A proposta é um método de **otimização para despacho de baterias residenciai
 - Considera medições locais (behind-the-meter).  
 
 - Utiliza potência real e reativa de forma acoplada para regulação de tensão e redução de perdas.  
-- É formulado como **Local-Quadratic Program (L-QP)** baseado nas equações lineares de fluxo de potência (**LinDistFlow**).  
+- É formulado como **Local-Quadratic Program (L-QP)** baseado nas equações lineares de fluxo de potência ([**LinDist3Flow**](https://arxiv.org/abs/1606.04492)).  
 
 Os testes foram realizados nos sistemas **IEEE 13 barras** e **IEEE 123 barras**, com dados realistas de carga residencial e geração PV.  
 Os resultados demonstram vantagens técnicas e econômicas da abordagem proposta.
