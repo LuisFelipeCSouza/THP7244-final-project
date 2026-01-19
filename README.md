@@ -13,7 +13,7 @@
 ## 📘 Contexto
 
 Este repositório contém o desenvolvimento do trabalho final da disciplina **Redes Elétricas Inteligentes: Proteção, Controle, Otimização**.  
-O trabalho é baseado na replicação dos resultados obtidos no artigo: **Optimization-Based Operation of Distribution Grids With Residential Battery Storage: Assessing Utility and Customer Benefits**
+O trabalho é baseado na replicação dos resultados obtidos no artigo: [**Optimization-Based Operation of Distribution Grids With Residential Battery Storage: Assessing Utility and Customer Benefits**](https://ieeexplore.ieee.org/document/9744477)
 
 ---
 
