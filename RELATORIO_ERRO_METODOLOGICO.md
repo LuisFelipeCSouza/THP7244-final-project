@@ -144,7 +144,7 @@ t=0h   t=1h   t=2h  ...                             t=23h
 
 ---
 
-## 6. Plano de Correção Passo a Passo
+## 6. Plano de Correção Sugerido - Passo a Passo
 
 ### Passo 1 — Corrigir a granularidade temporal
 
