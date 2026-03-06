@@ -88,7 +88,7 @@ O repositório está organizado de forma modular para separar dados, código-fon
 
 ## 🗂️ Arquivos Descontinuados
 
-Mudanças de estratégias fizeram com o desenvolvimento de alguns códigos fossem descontinuádos, a saber:
+Mudanças de estratégias fizeram com o desenvolvimento de alguns códigos fossem descontinuados, a saber:
 
 - [`src/lindist3flow.py`](src/lindist3flow.py)
 
