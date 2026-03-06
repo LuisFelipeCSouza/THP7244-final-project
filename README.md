@@ -56,58 +56,27 @@ Reuniões de orientação podem ser agendadas nos horários previstos para as au
 
 ---
 
-## 📦 Gerenciamento de Dependências com UV
+## 📦 Instalação das Dependências
 
-Este projeto utiliza o **UV** para instalar e gerenciar pacotes Python.  
-As dependências são registradas automaticamente no arquivo `pyproject.toml` e bloqueadas em `uv.lock`.
+Este projeto utiliza o **UV** para gerenciar os pacotes Python, garantindo a reprodutibilidade do ambiente para todos os membros da equipe. 
 
-### ➕ Adicionar uma nova dependência
-
-Para instalar e registrar uma biblioteca no projeto:
-
-```bash
-uv add nome-do-pacote
-```
-
-Exemplo:
-
-```bash
-uv add numpy pandas matplotlib
-```
-
-### ➕ Adicionar dependência apenas para desenvolvimento
-
-Se a biblioteca for usada apenas em ambiente de desenvolvimento (ex.: ferramentas de teste):
-
-```bash
-uv add --dev pytest black
-```
-
-### 🔄 Atualizar dependências
-
-Para atualizar todas as dependências para as versões mais recentes compatíveis:
-
-```bash
-uv lock --upgrade
-uv sync
-```
-
-### 📑 Instalar dependências existentes
-
-Quem clonar o repositório só precisa rodar:
+Para instalar todas as dependências necessárias, basta clonar o repositório e executar o seguinte comando na raiz do projeto:
 
 ```bash
 uv sync
 ```
 
-Isso cria o ambiente virtual `.venv` e instala todas as dependências conforme `pyproject.toml` e `uv.lock`.
+Isso criará automaticamente o ambiente virtual (`.venv`) e instalará todas as bibliotecas exatas conforme configurado no projeto.
 
 ---
 
-## 📂 Arquivos importantes
+## 🗂️ Estrutura do Projeto
 
-- **`pyproject.toml`** → lista de dependências e metadados do projeto.  
-- **`uv.lock`** → garante que todos usem as mesmas versões de pacotes.  
-- **`.venv/`** → ambiente virtual criado automaticamente (não deve ser commitado).  
+O repositório está organizado de forma modular para separar dados, código-fonte e resultados:
 
----
+* **`data/`**: Contém todos os insumos da simulação. Inclui as modelagens dos circuitos no OpenDSS (sistemas da IEEE de 13, 34 e 123 barras) e as bases de dados de perfis de carga e geração fotovoltaica.
+* **`src/`**: Guarda o "motor" matemático e de controle do projeto. Aqui ficam os módulos Python reutilizáveis (classes e funções), como o algoritmo do MPC, modelagem LinDist3Flow e ambiente de simulação.
+* **`scripts/`**: Contém os arquivos de execução principal (ex: `main.py` e cenários do OpenDSS). É por aqui que as simulações e o tuning da metaheurística devem ser inicializados.
+* **`notebooks/`**: Ambientes de experimentação em Jupyter Notebook. Usados para Análise Exploratória de Dados (EDA), limpeza de bases sintéticas e testes isolados nos circuitos.
+* **`output/`**: Pasta destinada a armazenar os resultados gerados após a execução dos scripts, como tabelas `.csv` e gráficos `.png`.
+* **`doc/`**: Documentação de apoio do projeto, relatórios metodológicos e anotações gerais.
