@@ -2,28 +2,35 @@ import py_dss_interface
 import numpy as np
 import random
 import os
+from pathlib import Path
 import sys
 import csv
 import matplotlib.pyplot as plt
-from scipy.optimize import differential_evolution
+
+root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if root not in sys.path:
+    sys.path.append(root)
 
 try:
-    from algoritmo_controle import OtimizadorBateria
+    from src.algoritmo_controle import OtimizadorBateria
 except ImportError:
     print("❌ ERRO: 'algoritmo_controle.py' não encontrado.")
     sys.exit(1)
+
+BASE_DIR = Path(__file__).resolve().parents[1]
 
 # ==============================================================================
 #   CONFIGURAÇÕES
 # ==============================================================================
 CONFIG = {
-    "DSS_FILE": r"C:\Users\Caio\Desktop\codigos\mestrado\trabfinalredes\Nova\13Bus-Modificado_1002\IEEE13Nodeckt.dss", # MUDAR CONFORME SEU CAMINHO LOCAL SELECIONE O ITEM 'IEEE13Nodeckt.dss'
-    "BUS_ALVO": "675",      
-    "FASE_ALVO": 3,         
+    "DSS_FILE": BASE_DIR / "data" / "13Bus-Modificado" / "IEEE13Nodeckt.dss",
+    "BUS_ALVO": "675",
+    "FASE_ALVO": 3,
     "SEED": 42,
     "STEP_MIN": 60,
     "HORIZONTE_MPC": 24,
-    "PASSOS_SIMULACAO": 24
+    "PASSOS_SIMULACAO": 24,
+    "OUTPUT_CSV": BASE_DIR / "output" / "resultados_cenario_otimo.csv"
 }
 
 # ==============================================================================
@@ -175,6 +182,7 @@ def run_scenario(config_dict, quiet=True):
     sigma_val = config_dict["sigma"]
     zeta_rule = config_dict["zeta"]
     
+    print(f"\n▶️  Executando: {scenario_name}")
     dss, batteries, assocs = setup_simulation(quiet)
     if not dss: return None
     
@@ -256,118 +264,94 @@ def run_scenario(config_dict, quiet=True):
         print("\n   ✅ Concluído!")
     return res
 
-# ==============================================================================
-#   METAHEURÍSTICA: EVOLUÇÃO DIFERENCIAL
-# ==============================================================================
-def fitness_function(parametros):
-    """
-    Função de avaliação para a Metaheurística.
-    Recebe um array com [sigma, zeta_mult], roda a simulação e calcula o "custo" do cenário.
-    """
-    sigma_val = parametros[0]
-    zeta_mult = parametros[1]
-    
-    zeta_rule = f"{zeta_mult}*eta" 
-    
-    config = {"nome": f"Otimizando", "sigma": sigma_val, "zeta": zeta_rule}
-    res = run_scenario(config, quiet=True)
-    
-    if not res:
-        return 1e6 
-        
-    v_min = min(res["v"])
-    v_max = max(res["v"])
-    passo_h = CONFIG["STEP_MIN"] / 60.0
-    perdas_totais_kwh = sum(res["perdas_kw"]) * passo_h
-    economia_total = sum([res["p"][i] * res["eta"][i] * passo_h for i in range(len(res["p"]))])
-    
-    # === FUNÇÃO DE PENALIDADE (O Segredo do Tuning) ===
-    custo_total = 0.0
-    
-    # 1. Penalidade severa se a tensão sair dos limites (0.95 e 1.05)
-    if v_max > 1.05:
-        custo_total += (v_max - 1.05) * 100000 
-    if v_min < 0.95:
-        custo_total += (0.95 - v_min) * 100000
-        
-    # 2. Queremos MINIMIZAR as perdas da rede (adicionamos ao custo)
-    custo_total += perdas_totais_kwh * 10 
-    
-    # 3. Queremos MAXIMIZAR o lucro (subtraímos do custo)
-    custo_total -= economia_total * 50 
-    
-    print(f" -> Testado: Sigma={sigma_val:.4f}, ZetaMult={zeta_mult:.1f} | Custo/Fitness={custo_total:.2f}")
-    return custo_total
-
 if __name__ == "__main__":
     print("\n=======================================================")
-    print(" INICIANDO SINTONIA METAHEURÍSTICA (Evolução Diferencial)")
+    print(" SIMULAÇÃO COM PARÂMETROS ÓTIMOS (TUNING SISTEMÁTICO)")
     print("=======================================================\n")
-    print("Isso pode levar alguns minutos. Por favor, aguarde...\n")
-    
-    # Limites de busca:
-    # Sigma: entre 0.0 e 1.0
-    # Zeta Multiplicador: entre 0.0 e 1000.0
-    limites_busca = [(0.0, 1.0), (0.0, 1000.0)]
-    
-    # Parâmetros da Evolução Diferencial
-    # popsize=3 e maxiter=5 deixam o código rápido para testes. 
-    # Para resultados acadêmicos finais, aumente para popsize=5 e maxiter=10.
-    resultado_otimizacao = differential_evolution(
-        fitness_function, 
-        bounds=limites_busca, 
-        popsize=3, 
-        maxiter=5, 
-        disp=True,
-        tol=0.01
-    )
-    
-    sigma_otimo = resultado_otimizacao.x[0]
-    zeta_mult_otimo = resultado_otimizacao.x[1]
-    
-    print("\n🏆 ================= RESULTADO FINAL ================= 🏆")
-    print(f"Melhor Sigma encontrado: {sigma_otimo:.5f}")
-    print(f"Melhor Multiplicador Zeta encontrado: {zeta_mult_otimo:.2f}")
-    print("=======================================================\n")
-    
-    # ==============================================================================
-    # RODA E PLOTA O CENÁRIO CAMPEÃO
-    # ==============================================================================
-    print("Rodando simulação limpa para o cenário ótimo e gerando gráficos...")
-    config_otima = {
-        "nome": "Cenario Otimo", 
-        "sigma": sigma_otimo, 
-        "zeta": f"{zeta_mult_otimo}*eta"
-    }
-    
-    res_final = run_scenario(config_otima, quiet=False)
-    
-    if res_final:
-        t = np.arange(len(res_final["v"]))
+
+    # Valores descobertos pela nossa metaheurística:
+    SIGMA_OTIMO = 0.7457
+    ZETA_MULT_OTIMO = 34.4
+
+    # Vamos rodar a linha de base e o cenário vencedor
+    SETS_PARAMETROS = [
+        {"nome": "Sem Bateria", "sigma": 0.0, "zeta": "0"},
+        {
+            "nome": f"Cenário Ótimo (Sigma={SIGMA_OTIMO}, Zeta={ZETA_MULT_OTIMO}*eta)", 
+            "sigma": SIGMA_OTIMO, 
+            "zeta": f"{ZETA_MULT_OTIMO}*eta"
+        }
+    ]
+
+    data = {}
+    for cfg in SETS_PARAMETROS:
+        r = run_scenario(cfg, quiet=False)
+        if r: data[cfg["nome"]] = r
+
+    if data:
+        print("\n💾 Salvando dados em CSV...")
+        
+        # Monta os cabeçalhos para o CSV
+        headers = ["Passo_Tempo"]
+        for sc_name in data.keys():
+            headers.append(f"{sc_name} - Tensão (p.u.)")
+            if sc_name != "Sem Bateria":
+                headers.append(f"{sc_name} - P (kW)")
+                headers.append(f"{sc_name} - Q (kvar)")
+        
+        # Escreve o arquivo CSV usando ponto e vírgula como separador (padrão Brasil/Excel)
+        with open(CONFIG["OUTPUT_CSV"], mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file, delimiter=';')
+            writer.writerow(headers)
+            
+            num_passos = len(data["Sem Bateria"]["v"])
+            for i in range(num_passos):
+                row = [i]
+                for sc_name in data.keys():
+                    row.append(f"{data[sc_name]['v'][i]:.4f}".replace('.', ','))
+                    if sc_name != "Sem Bateria":
+                        row.append(f"{data[sc_name]['p'][i]:.4f}".replace('.', ','))
+                        row.append(f"{data[sc_name]['q'][i]:.4f}".replace('.', ','))
+                writer.writerow(row)
+                
+        print(f"✅ Dados salvos com sucesso em: {CONFIG['OUTPUT_CSV']}")
+
+        print("\n📊 Plotando resultados finais...")
+        t = np.arange(len(data["Sem Bateria"]["v"]))
         fig, axs = plt.subplots(3, 1, figsize=(10, 12), sharex=True)
         
-        axs[0].plot(t, res_final["v"], label="Tensão com Controle Ótimo", lw=2, color="blue")
+        # Gráfico 1: Tensão
+        for sc_name, d in data.items():
+            if sc_name == "Sem Bateria":
+                axs[0].plot(t, d["v"], label=sc_name, lw=2, color='gray', linestyle='--')
+            else:
+                axs[0].plot(t, d["v"], label=sc_name, lw=2, color="blue")
+                
         axs[0].set_ylabel("Tensão (p.u.)")
-        axs[0].legend(loc='upper right')
+        axs[0].legend(loc='upper right', fontsize='small')
         axs[0].grid(True, alpha=0.3)
-        axs[0].set_title(f"Tensão na Barra {CONFIG['BUS_ALVO']} (Fase {CONFIG['FASE_ALVO']}) - Tuning Sistemático")
-        axs[0].axhline(0.95, c='r', ls=':'); axs[0].axhline(1.05, c='r', ls=':')
+        axs[0].set_title(f"Tensão na Barra {CONFIG['BUS_ALVO']} (Fase {CONFIG['FASE_ALVO']})")
+        axs[0].axhline(0.95, c='red', ls=':', alpha=0.7)
+        axs[0].axhline(1.05, c='red', ls=':', alpha=0.7)
         
-        axs[1].plot(t, res_final["p"], lw=2, color="green", label="Ativa (kW)")
+        # Gráficos 2 e 3: Potência Ativa e Reativa
+        otimo_nome = SETS_PARAMETROS[1]["nome"]
+        
+        axs[1].plot(t, data[otimo_nome]["p"], lw=2, color="green", label="Ativa (kW)")
         axs[1].set_ylabel("kW")
         axs[1].legend(loc='upper right')
         axs[1].grid(True, alpha=0.3)
-        axs[1].set_title("Potência Ativa (Soma das ~451 Baterias)")
+        axs[1].set_title("Potência Ativa Despachada (Soma das ~451 Baterias)")
         
-        axs[2].plot(t, res_final["q"], lw=2, color="purple", label="Reativa (kvar)")
+        axs[2].plot(t, data[otimo_nome]["q"], lw=2, color="purple", label="Reativa (kvar)")
         axs[2].set_ylabel("kvar")
         axs[2].legend(loc='upper right')
         axs[2].grid(True, alpha=0.3)
-        axs[2].set_title("Potência Reativa (Soma das ~451 Baterias)")
+        axs[2].set_title("Potência Reativa Despachada (Soma das ~451 Baterias)")
         axs[2].set_xlabel("Hora do Dia (Passos)")
         
         plt.tight_layout()
-        nome_img = "resultado_otimizacao_bilevel.png"
+        nome_img = "resultado_cenario_otimo.png"
         plt.savefig(nome_img)
-        print(f"\n✅ Imagem do cenário ótimo salva em: {nome_img}")
+        print(f"\n✅ Imagem do cenário ótimo salva com sucesso em: {nome_img}")
         plt.show()
